@@ -1,0 +1,35 @@
+:root {
+    --margin-left: 30px;
+}
+
+body {
+    margin: 0;
+}
+
+.content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.title {
+    font-size: xx-large;
+    margin-left: var(--margin-left);
+    text-align: center;
+}
+
+canvas {
+    border: 10px solid black;
+    border-radius: 10px;
+    margin-left: var(--margin-left);
+}
+
+.b {
+    --b1-width: 90px;
+    width: var(--b1-width);
+    height: calc(var(--b1-width)/2);
+    background-color: aqua;
+    border-radius: 10px;
+    margin-top: 10px;
+    font-size: x-large;
+}
