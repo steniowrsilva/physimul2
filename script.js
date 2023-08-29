@@ -1,5 +1,5 @@
 const canvas = document.querySelector('.canvas');
-ctx = canvas.getContext('2d');
+const ctx = canvas.getContext('2d');
 
 
 function vector (length, x, y) {
@@ -14,7 +14,7 @@ const weight = vector(null,null,null);
 const weightX = vector(null,null,null);
 const weightY = vector(null,null,null);
 const tension = vector(null,null,null);
-const centripetalForce = vector(null,null,null);
+const centripetalForce = vector(null,null,null); //to use them later
 
 const cable = {
     Radius: 350
@@ -32,8 +32,8 @@ const bucket = {
         return Math.sqrt(this.radiusDiff**2 + this.height**2)
     }
 }
-
-let dalpha = (Math.PI/180)*(0);
+let t = 0;
+let dalpha = (Math.PI/180)*(t);
 
 let alpha = Math.PI/2 - dalpha;
 
@@ -128,13 +128,19 @@ function drawBucket () {
     ctx.strokeStyle = 'black';
     ctx.stroke();
     ctx.closePath();
-    
-
 }
 
 function drawAll() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    t += 1;
+    dalpha = (Math.PI/180)*(t);
+    alpha = Math.PI/2 - dalpha;
+
     drawCable();
     drawBucket();
+    
+    requestAnimationFrame(drawAll);
 }
 
 drawAll();
