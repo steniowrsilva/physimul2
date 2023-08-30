@@ -1,7 +1,6 @@
 const canvas = document.querySelector('.canvas');
 const ctx = canvas.getContext('2d');
 
-
 function vector (length, x, y) {
     return {
         length,
@@ -9,7 +8,6 @@ function vector (length, x, y) {
         y
     }
 }
-
 
 const cable = {
     Radius: 350
@@ -51,7 +49,7 @@ function drawCable() {
     ctx.moveTo(canvas.width/2, canvas.height/2);
     ctx.lineTo(canvas.width/2 + (cable.Radius - bucket.height-70)*Math.cos(alpha),
                canvas.height/2 + (cable.Radius - bucket.height-70)*Math.sin(alpha));
-    ctx.lineWidth = 4;
+    ctx.lineWidth = 8;
     ctx.strokeStyle = 'orange';
     ctx.stroke();
     ctx.closePath();
@@ -136,7 +134,6 @@ function drawBucket () {
 }
 
 function drawVectors() {
-    
     //---------weight vector----------
     weight.x = canvas.width/2 + (cable.Radius)*Math.cos(alpha); // to update position
     weight.y = canvas.height/2 + (cable.Radius)*Math.sin(alpha);
@@ -162,13 +159,14 @@ function drawVectors() {
     ctx.closePath();
 
     //-------tension vector---------
-    tension.x = canvas.width/2 + (cable.Radius - bucket.height-70)*Math.cos(alpha); // to update position
-    tension.y = canvas.height/2 + (cable.Radius - bucket.height-70)*Math.sin(alpha);
+    // - bucket.height-70
+    tension.x = canvas.width/2 + (cable.Radius)*Math.cos(alpha); // to update position
+    tension.y = canvas.height/2 + (cable.Radius)*Math.sin(alpha);
     ctx.beginPath();
     ctx.moveTo(tension.x, tension.y);
     ctx.lineTo(tension.x + tension.length*Math.cos(-Math.PI + alpha),
                tension.y + tension.length*Math.sin(-Math.PI + alpha));
-    ctx.strokeStyle = 'blue';
+    ctx.strokeStyle = 'purple';
     ctx.lineWidth = 4;
     ctx.stroke();
     ctx.closePath();
@@ -183,7 +181,7 @@ function drawVectors() {
                tension.y + tension.length*Math.sin(-Math.PI + alpha));
     ctx.lineTo(tension.x + tension.length*Math.cos(-Math.PI + alpha) + arrowhead*Math.cos(alpha+Math.PI/6),
                tension.y + tension.length*Math.sin(-Math.PI + alpha) + arrowhead*Math.sin(alpha+Math.PI/6));
-    ctx.strokeStyle = 'blue';
+    ctx.strokeStyle = 'purple';
     ctx.lineWidth = 4;
     ctx.stroke();
     ctx.closePath();
@@ -237,7 +235,98 @@ function drawVectors() {
     ctx.lineWidth = 4;
     ctx.stroke();
     ctx.closePath();
+
+    //---centripetal force-----
+    ctx.beginPath();
+    ctx.moveTo(weightRadial.x, weightRadial.y);
+    ctx.lineTo(weightRadial.x + tension.length*Math.cos(-Math.PI + alpha) + weightRadial.length*Math.cos(alpha),
+               weightRadial.y + tension.length*Math.sin(-Math.PI + alpha) + weightRadial.length*Math.sin(alpha));
+    ctx.strokeStyle = 'red';
+    ctx.lineWidth = 4;
+    ctx.stroke();
+    ctx.closePath();
+
+    //--centripetal force vector's arrowhead---
+    ctx.beginPath();
+    ctx.moveTo(weightRadial.x + tension.length*Math.cos(-Math.PI + alpha) + weightRadial.length*Math.cos(alpha),
+               weightRadial.y + tension.length*Math.sin(-Math.PI + alpha) + weightRadial.length*Math.sin(alpha));
+    ctx.lineTo(weightRadial.x + tension.length*Math.cos(-Math.PI + alpha) + weightRadial.length*Math.cos(alpha) +
+               arrowhead*Math.cos(alpha-Math.PI/6),
+               weightRadial.y + tension.length*Math.sin(-Math.PI + alpha) + weightRadial.length*Math.sin(alpha) +
+               arrowhead*Math.sin(alpha-Math.PI/6));
+    ctx.lineTo(weightRadial.x + tension.length*Math.cos(-Math.PI + alpha) + weightRadial.length*Math.cos(alpha),
+               weightRadial.y + tension.length*Math.sin(-Math.PI + alpha) + weightRadial.length*Math.sin(alpha));
+    ctx.lineTo(weightRadial.x + tension.length*Math.cos(-Math.PI + alpha) + weightRadial.length*Math.cos(alpha) + 
+               arrowhead*Math.cos(alpha+Math.PI/6),
+               weightRadial.y + tension.length*Math.sin(-Math.PI + alpha) + weightRadial.length*Math.sin(alpha) +
+               arrowhead*Math.sin(alpha+Math.PI/6));
+    ctx.strokeStyle = 'red';
+    ctx.lineWidth = 4;
+    ctx.stroke();
+    ctx.closePath();
+
+    //--dashed line---
+    ctx.beginPath();
+    ctx.setLineDash([10, 5]);
+    ctx.moveTo(weight.x, weight.y + weight.length);
+    ctx.lineTo(weightRadial.x + weightRadial.length*Math.cos(alpha),
+               weightRadial.y + weightRadial.length*Math.sin(alpha));
+    ctx.strokeStyle = 'black';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    ctx.closePath();
+
     
+}
+
+function legendas() {
+    //legendas
+    ctx.fillStyle = 'black';
+    ctx.font = "24px serif";
+    ctx.fillText(": Força peso", 40, 30);
+    ctx.fillText(": Tensão", 40, 55);
+    ctx.fillText(": Componente radial da força peso", 40, 80);
+    ctx.fillText(": Força centrípeta", 40, 105);
+
+    ctx.fillStyle = 'red';
+    ctx.fillText("Fc          ", 40, 140);
+    ctx.fillStyle = 'black';
+    ctx.fillText("     =          ", 40, 140);
+    ctx.fillStyle = 'green';
+    ctx.fillText("         Pr      ", 40, 140);
+    ctx.fillStyle = 'black';
+    ctx.fillText("              +    ", 40, 140);
+    ctx.fillStyle = 'purple';
+    ctx.fillText("                  T", 40, 140);
+    // θ
+    ctx.fillStyle = 'black';
+    let dy = 550;
+    ctx.fillText("m: massa",40, 170 + dy);
+    ctx.fillText("v: velocidade",40, 200 + dy);
+    ctx.fillText("R: raio da trajetória",40, 230 + dy);
+    ctx.fillText("g: aceleração da gravidade",40, 260 + dy);
+    ctx.fillText("θ: menor angulo entre T e P",40, 290 + dy);
+
+    ctx.fillText("Fc = mv²/R", 40, 170);
+    ctx.fillText("Pr = mgcosθ", 40, 190);
+
+    //vetores
+    ctx.font = "25px Arial";
+    ctx.fillStyle = 'blue';
+    ctx.fillText("→", 10, 15);
+    ctx.fillText("P", 10, 30);
+
+    ctx.fillStyle = 'green';
+    ctx.fillText("→", 10, 70);
+    ctx.fillText("Pr", 10, 83);
+
+    ctx.fillStyle = 'purple';
+    ctx.fillText("→", 10, 41);
+    ctx.fillText("T", 10, 55);
+
+    ctx.fillStyle = 'red';
+    ctx.fillText("→", 10, 92);
+    ctx.fillText("Fc", 10, 107);
 }
 
 function drawAll() {
@@ -247,11 +336,12 @@ function drawAll() {
     dalpha = (Math.PI/180)*(t);
     alpha = Math.PI/2 - dalpha;
 
+    ctx.setLineDash([]);
     drawCable();
     drawBucket();
     drawVectors();
+    legendas();
     
-    // if(alpha>-Math.PI/2){requestAnimationFrame(drawAll);}
     requestAnimationFrame(drawAll);
 }
 
