@@ -243,7 +243,7 @@ function drawVectors() {
 function drawAll() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    t += 1.5;
+    t += 1;
     dalpha = (Math.PI/180)*(t);
     alpha = Math.PI/2 - dalpha;
 
