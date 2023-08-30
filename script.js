@@ -284,9 +284,9 @@ function legendas() {
     ctx.fillStyle = 'black';
     ctx.font = "24px serif";
     ctx.fillText(": Força peso", 40, 30);
-    ctx.fillText(": Tensão", 40, 55);
+    ctx.fillText(": Tensão da corda", 40, 55);
     ctx.fillText(": Componente radial da força peso", 40, 80);
-    ctx.fillText(": Força centrípeta", 40, 105);
+    ctx.fillText(": Força centrípeta", 40, 110);
 
     ctx.fillStyle = 'red';
     ctx.fillText("Fc          ", 40, 140);
@@ -301,11 +301,11 @@ function legendas() {
     // θ
     ctx.fillStyle = 'black';
     let dy = 550;
-    ctx.fillText("m: massa",40, 170 + dy);
-    ctx.fillText("v: velocidade",40, 200 + dy);
-    ctx.fillText("R: raio da trajetória",40, 230 + dy);
-    ctx.fillText("g: aceleração da gravidade",40, 260 + dy);
-    ctx.fillText("θ: menor angulo entre T e P",40, 290 + dy);
+    ctx.fillText("m: massa",20, 170 + dy);
+    ctx.fillText("v: velocidade",20, 200 + dy);
+    ctx.fillText("R: raio da trajetória",20, 230 + dy);
+    ctx.fillText("g: aceleração da gravidade",20, 260 + dy);
+    ctx.fillText("θ: menor angulo entre T e P",20, 290 + dy);
 
     ctx.fillText("Fc = mv²/R", 40, 170);
     ctx.fillText("Pr = mgcosθ", 40, 190);
@@ -325,8 +325,8 @@ function legendas() {
     ctx.fillText("T", 10, 55);
 
     ctx.fillStyle = 'red';
-    ctx.fillText("→", 10, 92);
-    ctx.fillText("Fc", 10, 107);
+    ctx.fillText("→", 10, 97);
+    ctx.fillText("Fc", 10, 113);
 }
 
 function drawAll() {
