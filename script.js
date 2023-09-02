@@ -38,9 +38,9 @@ const weight = vector(85,canvas.width/2 + (cable.Radius)*Math.cos(alpha),
                          canvas.height/2 + (cable.Radius)*Math.sin(alpha));
 const weightRadial = vector(weight.length*Math.cos(dalpha), canvas.width/2 + (cable.Radius)*Math.cos(alpha),
                                                             canvas.height/2 + (cable.Radius)*Math.sin(alpha));
-const tension = vector(100,canvas.width/2 + (cable.Radius - bucket.height-70)*Math.cos(alpha),
+const centripetalForce = vector(120,canvas.width/2 + (cable.Radius - bucket.height-70)*Math.cos(alpha),
                        canvas.height/2 + (cable.Radius - bucket.height-70)*Math.sin(alpha));
-const centripetalForce = vector(null,null,null); //to use them later
+// const centripetalForce = vector(null,null,null); //to use them later
 
 
 function drawCable() {
@@ -158,29 +158,29 @@ function drawVectors() {
     ctx.stroke();
     ctx.closePath();
 
-    //-------tension vector---------
+    //-------centripetalForce vector---------
     // - bucket.height-70
-    tension.x = canvas.width/2 + (cable.Radius)*Math.cos(alpha); // to update position
-    tension.y = canvas.height/2 + (cable.Radius)*Math.sin(alpha);
+    centripetalForce.x = canvas.width/2 + (cable.Radius)*Math.cos(alpha); // to update position
+    centripetalForce.y = canvas.height/2 + (cable.Radius)*Math.sin(alpha);
     ctx.beginPath();
-    ctx.moveTo(tension.x, tension.y);
-    ctx.lineTo(tension.x + tension.length*Math.cos(-Math.PI + alpha),
-               tension.y + tension.length*Math.sin(-Math.PI + alpha));
+    ctx.moveTo(centripetalForce.x, centripetalForce.y);
+    ctx.lineTo(centripetalForce.x + centripetalForce.length*Math.cos(-Math.PI + alpha),
+               centripetalForce.y + centripetalForce.length*Math.sin(-Math.PI + alpha));
     ctx.strokeStyle = 'purple';
     ctx.lineWidth = 4;
     ctx.stroke();
     ctx.closePath();
 
-    //--tension vector's arrowhead---
+    //--centripetalForce vector's arrowhead---
     ctx.beginPath();
-    ctx.moveTo(tension.x + tension.length*Math.cos(-Math.PI + alpha),
-               tension.y + tension.length*Math.sin(-Math.PI + alpha));
-    ctx.lineTo(tension.x + tension.length*Math.cos(-Math.PI + alpha) + arrowhead*Math.cos(alpha-Math.PI/6),
-               tension.y + tension.length*Math.sin(-Math.PI + alpha) + arrowhead*Math.sin(alpha-Math.PI/6));
-    ctx.lineTo(tension.x + tension.length*Math.cos(-Math.PI + alpha),
-               tension.y + tension.length*Math.sin(-Math.PI + alpha));
-    ctx.lineTo(tension.x + tension.length*Math.cos(-Math.PI + alpha) + arrowhead*Math.cos(alpha+Math.PI/6),
-               tension.y + tension.length*Math.sin(-Math.PI + alpha) + arrowhead*Math.sin(alpha+Math.PI/6));
+    ctx.moveTo(centripetalForce.x + centripetalForce.length*Math.cos(-Math.PI + alpha),
+               centripetalForce.y + centripetalForce.length*Math.sin(-Math.PI + alpha));
+    ctx.lineTo(centripetalForce.x + centripetalForce.length*Math.cos(-Math.PI + alpha) + arrowhead*Math.cos(alpha-Math.PI/6),
+               centripetalForce.y + centripetalForce.length*Math.sin(-Math.PI + alpha) + arrowhead*Math.sin(alpha-Math.PI/6));
+    ctx.lineTo(centripetalForce.x + centripetalForce.length*Math.cos(-Math.PI + alpha),
+               centripetalForce.y + centripetalForce.length*Math.sin(-Math.PI + alpha));
+    ctx.lineTo(centripetalForce.x + centripetalForce.length*Math.cos(-Math.PI + alpha) + arrowhead*Math.cos(alpha+Math.PI/6),
+               centripetalForce.y + centripetalForce.length*Math.sin(-Math.PI + alpha) + arrowhead*Math.sin(alpha+Math.PI/6));
     ctx.strokeStyle = 'purple';
     ctx.lineWidth = 4;
     ctx.stroke();
@@ -236,29 +236,29 @@ function drawVectors() {
     ctx.stroke();
     ctx.closePath();
 
-    //---centripetal force-----
+    //---tension force-----
     ctx.beginPath();
     ctx.moveTo(weightRadial.x, weightRadial.y);
-    ctx.lineTo(weightRadial.x + tension.length*Math.cos(-Math.PI + alpha) + weightRadial.length*Math.cos(alpha),
-               weightRadial.y + tension.length*Math.sin(-Math.PI + alpha) + weightRadial.length*Math.sin(alpha));
+    ctx.lineTo(weightRadial.x + centripetalForce.length*Math.cos(-Math.PI + alpha) + weightRadial.length*Math.cos(alpha),
+               weightRadial.y + centripetalForce.length*Math.sin(-Math.PI + alpha) + weightRadial.length*Math.sin(alpha));
     ctx.strokeStyle = 'red';
     ctx.lineWidth = 4;
     ctx.stroke();
     ctx.closePath();
 
-    //--centripetal force vector's arrowhead---
+    //--tension force vector's arrowhead---
     ctx.beginPath();
-    ctx.moveTo(weightRadial.x + tension.length*Math.cos(-Math.PI + alpha) + weightRadial.length*Math.cos(alpha),
-               weightRadial.y + tension.length*Math.sin(-Math.PI + alpha) + weightRadial.length*Math.sin(alpha));
-    ctx.lineTo(weightRadial.x + tension.length*Math.cos(-Math.PI + alpha) + weightRadial.length*Math.cos(alpha) +
+    ctx.moveTo(weightRadial.x + centripetalForce.length*Math.cos(-Math.PI + alpha) + weightRadial.length*Math.cos(alpha),
+               weightRadial.y + centripetalForce.length*Math.sin(-Math.PI + alpha) + weightRadial.length*Math.sin(alpha));
+    ctx.lineTo(weightRadial.x + centripetalForce.length*Math.cos(-Math.PI + alpha) + weightRadial.length*Math.cos(alpha) +
                arrowhead*Math.cos(alpha-Math.PI/6),
-               weightRadial.y + tension.length*Math.sin(-Math.PI + alpha) + weightRadial.length*Math.sin(alpha) +
+               weightRadial.y + centripetalForce.length*Math.sin(-Math.PI + alpha) + weightRadial.length*Math.sin(alpha) +
                arrowhead*Math.sin(alpha-Math.PI/6));
-    ctx.lineTo(weightRadial.x + tension.length*Math.cos(-Math.PI + alpha) + weightRadial.length*Math.cos(alpha),
-               weightRadial.y + tension.length*Math.sin(-Math.PI + alpha) + weightRadial.length*Math.sin(alpha));
-    ctx.lineTo(weightRadial.x + tension.length*Math.cos(-Math.PI + alpha) + weightRadial.length*Math.cos(alpha) + 
+    ctx.lineTo(weightRadial.x + centripetalForce.length*Math.cos(-Math.PI + alpha) + weightRadial.length*Math.cos(alpha),
+               weightRadial.y + centripetalForce.length*Math.sin(-Math.PI + alpha) + weightRadial.length*Math.sin(alpha));
+    ctx.lineTo(weightRadial.x + centripetalForce.length*Math.cos(-Math.PI + alpha) + weightRadial.length*Math.cos(alpha) + 
                arrowhead*Math.cos(alpha+Math.PI/6),
-               weightRadial.y + tension.length*Math.sin(-Math.PI + alpha) + weightRadial.length*Math.sin(alpha) +
+               weightRadial.y + centripetalForce.length*Math.sin(-Math.PI + alpha) + weightRadial.length*Math.sin(alpha) +
                arrowhead*Math.sin(alpha+Math.PI/6));
     ctx.strokeStyle = 'red';
     ctx.lineWidth = 4;
@@ -284,11 +284,11 @@ function legendas() {
     ctx.fillStyle = 'black';
     ctx.font = "24px serif";
     ctx.fillText(": Força peso", 40, 30);
-    ctx.fillText(": Tensão da corda", 40, 55);
+    ctx.fillText(": Força centrípeta", 40, 55);
     ctx.fillText(": Componente radial da força peso", 40, 80);
-    ctx.fillText(": Força centrípeta", 40, 110);
+    ctx.fillText(": Tensão da corda", 40, 110);
 
-    ctx.fillStyle = 'red';
+    ctx.fillStyle = 'purple';
     ctx.fillText("Fc          ", 40, 140);
     ctx.fillStyle = 'black';
     ctx.fillText("     =          ", 40, 140);
@@ -296,7 +296,7 @@ function legendas() {
     ctx.fillText("         Pr      ", 40, 140);
     ctx.fillStyle = 'black';
     ctx.fillText("              +    ", 40, 140);
-    ctx.fillStyle = 'purple';
+    ctx.fillStyle = 'red';
     ctx.fillText("                  T", 40, 140);
     // θ
     ctx.fillStyle = 'black';
@@ -322,11 +322,11 @@ function legendas() {
 
     ctx.fillStyle = 'purple';
     ctx.fillText("→", 10, 41);
-    ctx.fillText("T", 10, 55);
+    ctx.fillText("Fc", 10, 55);
 
     ctx.fillStyle = 'red';
     ctx.fillText("→", 10, 97);
-    ctx.fillText("Fc", 10, 113);
+    ctx.fillText("T", 10, 113);
 }
 
 function drawAll() {
